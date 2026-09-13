@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница</title>
+</head>
+<body>
+    <!-- Сюда подставится имя -->
+    <h1 id="welcomeMessage">Привет!</h1>
+
+    <!-- Кнопка выхода из аккаунта (полезный бонус) -->
+    <button id="logoutBtn">Выйти из аккаунта</button>
+    <h2>Выбери один из пунктов:</h2>
+    <a href="aboutme.html">
+        <button>Обо мне</button>
+    </a>
+    <a href="https://drive.google.com/drive/folders/1Xkployemu7KDKPcO5HENaJVNGgM_aBhC?usp=sharing">
+        <button>Некоторые мои проекты</button>
+    </a>
+    <script>
+        // 1. Достаем имя текущего пользователя из localStorage
+        const currentUser = localStorage.getItem('currentUser');
+
+        // 2. Проверяем, вошел ли вообще пользователь
+        if (currentUser) {
+            // Если вошел — меняем текст заголовка
+            document.getElementById('welcomeMessage').textContent = `Привет, ${currentUser}!`;
+        } else {
+            // Если зашли напрямую без входа — отправляем обратно на страницу логина
+            window.location.href = 'login.html';
+        }
+        
+        // 3. Обработка кнопки выхода
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            // Удаляем информацию о текущем пользователе
+            localStorage.removeItem('currentUser');
+            // Перенаправляем на логин
+            window.location.href = 'start_page.html';
+        });
+    </script>
+</body>
+</html>

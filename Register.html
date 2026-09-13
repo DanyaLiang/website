@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+    <h2>Регистрация</h2>
+    <form id="regForm">
+        <input type="text" id="regUser" placeholder="Логин" required><br><br>
+        <input type="password" id="regPass" placeholder="Пароль" required><br><br>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <p id="error" style="color: red;"></p>
+
+    <script>
+        document.getElementById('regForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const user = document.getElementById('regUser').value;
+            const pass = document.getElementById('regPass').value;
+
+            // Достаем уже существующих пользователей или создаем пустой массив
+            let users = JSON.parse(localStorage.getItem('mySiteUsers')) || [];
+
+            // Проверяем, нет ли такого юзера
+            if (users.find(u => u.username === user)) {
+                document.getElementById('error').textContent = 'Такой пользователь уже есть!';
+                return;
+            }
+
+            // Добавляем нового
+            users.push({ username: user, password: pass });
+            localStorage.setItem('mySiteUsers', JSON.stringify(users));
+
+            alert('Регистрация успешна!');
+            window.location.href = 'main_menu.html';
+        });
+    </script>
+    <a href="start_page.html">
+            <button>Главное меню</button>
+        </a>
+
+</body>
+</html>

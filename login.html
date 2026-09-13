@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход в систему</title>
+</head>
+<body>
+    <h2>Вход</h2>
+    <form id="loginForm">
+        <input type="text" id="loginUser" placeholder="Логин" required><br><br>
+        <input type="password" id="loginPass" placeholder="Пароль" required><br><br>
+        <button type="submit">Войти</button>
+    </form>
+    
+    <p id="errorMsg" style="color: red;"></p>
+
+    <!-- Ссылка на случай, если еще нет аккаунта -->
+    <p>Нет аккаунта? <a href="Register.html">Зарегистрироваться</a></p>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const inputUser = document.getElementById('loginUser').value;
+            const inputPass = document.getElementById('loginPass').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            // 1. Достаем список всех зарегистрированных пользователей из localStorage
+            const users = JSON.parse(localStorage.getItem('mySiteUsers')) || [];
+
+            // 2. Ищем пользователя с таким же логином и паролем
+            const foundUser = users.find(u => u.username === inputUser && u.password === inputPass);
+
+            if (foundUser) {
+                // 3. Если нашли — запоминаем, кто сейчас вошел
+                localStorage.setItem('currentUser', foundUser.username);
+
+                // 4. Перенаправляем на стартовую страницу
+                window.location.href = 'main_menu.html';
+            } else {
+                // Если не нашли — выводим ошибку
+                errorMsg.textContent = 'Неверный логин или пароль!';
+            }
+        });
+    </script>
+</body>
+</html>
